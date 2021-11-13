@@ -203,7 +203,7 @@ string LinuxParser::Command(int pid) {
 // Read and return the memory used by a process
 string LinuxParser::Ram(int pid) { 
   string line;
-  string key, value;
+  string key, value, valueMB;
   string sPid = to_string(pid);
   std::ifstream filestream(kProcDirectory + sPid + kStatusFilename);
   if (filestream.is_open()) {
@@ -211,11 +211,14 @@ string LinuxParser::Ram(int pid) {
       std::istringstream linestream(line);
       linestream >> key >> value;
       if (key == "VmSize:") {
-        return value;
+        int kByte = stoi(value);
+        int mByte = kByte/1024;
+        valueMB = to_string( mByte );
+        return valueMB;
       }
     }
   }
-  return string(); 
+  return ""; 
 }
 
 // Read and return the user ID associated with a process
@@ -279,8 +282,9 @@ long LinuxParser::UpTime(int pid) {
 float LinuxParser::CpuUtilization(int pid){
   string sPid = to_string(pid);
   long systemUpTime = LinuxParser::UpTime();
-  long uTime, sTime, cuTime, csTime, startTime, totalTime, seconds, cpuUsage;
-  vector<string> dataVec = {};
+  long uTime, sTime, cuTime, csTime, startTime, totalTime;
+  float cpuUsage, seconds;
+  vector<string> dataVec;
   string line, data;
   std::ifstream filestream(kProcDirectory + sPid + kStatFilename);
   if (filestream.is_open()) {
@@ -295,10 +299,12 @@ float LinuxParser::CpuUtilization(int pid){
     cuTime = stol(dataVec[15]);
     csTime = stol(dataVec[16]);
     startTime = stol(dataVec[21]);
-    totalTime = uTime + sTime + cuTime + csTime;
-    seconds = systemUpTime - (startTime/sysconf(_SC_CLK_TCK));
-    cpuUsage = (float) (totalTime/sysconf(_SC_CLK_TCK))/seconds;
-    return cpuUsage;
+    totalTime = uTime + sTime; // + cuTime + csTime;
+    seconds = (float) ( systemUpTime - (startTime/sysconf(_SC_CLK_TCK)) );
+    if (seconds){
+      cpuUsage = (float) ( (totalTime/sysconf(_SC_CLK_TCK)) / seconds );
+      return cpuUsage;
+    }
   }
   return 0.0;
 }

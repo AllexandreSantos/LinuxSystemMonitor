@@ -31,3 +31,19 @@ string Format::ElapsedTime(long times) {
     string output = hourOutput + ":" + minuteOutput + ":" + secondOutput;
     return output; 
 }
+
+string Format::FormatString(std::string s, int targetSize){
+    string sCut = s.substr(0, targetSize);
+    string formatedString;
+    int size = sCut.size();
+    if (size < targetSize) {
+        int pos = size -1;
+        for (int i = pos; i<targetSize; i++){
+            formatedString = sCut.append(" ");
+        }
+    }
+    else{
+        formatedString = sCut;
+    }
+    return formatedString;
+}

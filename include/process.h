@@ -4,6 +4,7 @@
 #include <string>
 
 #include "linux_parser.h"
+#include "format.h"
 /*
 Basic class for Process representation
 It contains relevant attributes as shown below
@@ -24,7 +25,7 @@ class Process {
   float CpuUtilization();                  
   std::string Ram();                      
   long int UpTime();                       
-  bool operator<(Process const& a) const;  // TODO: See src/process.cpp
+  bool operator<(Process const& a) const;
 
  private:
    int pid_;

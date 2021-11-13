@@ -13,6 +13,7 @@ using std::set;
 using std::size_t;
 using std::string;
 using std::vector;
+using std::sort;
 
 Processor& System::Cpu() { return cpu_; }
 
@@ -22,6 +23,7 @@ vector<Process>& System::Processes() {
         Process process = Process(pids[i]);
         processes_.push_back(process);
     }
+    sort(processes_.begin(), processes_.end());
     return processes_; 
 }
 
