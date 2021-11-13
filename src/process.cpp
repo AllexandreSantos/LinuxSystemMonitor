@@ -13,8 +13,8 @@ using std::stoi;
 
 int Process::Pid() { return pid_; }
 
-// TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { return 0; }
+// Return this process's CPU utilization
+float Process::CpuUtilization() { return cpuUtilization_; }
 
 // Return the command that generated this process
 string Process::Command() { return command_; }

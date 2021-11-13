@@ -73,7 +73,6 @@ vector<int> LinuxParser::Pids() {
 float LinuxParser::MemoryUtilization() { 
   string line;
   string key, value;
-  vector<float> memValues = {0, 0, 0};
   float memTotal, memAvailable;
   std::ifstream stream(kProcDirectory + kMeminfoFilename);
   if (stream.is_open()){
@@ -274,4 +273,32 @@ long LinuxParser::UpTime(int pid) {
     return upTime;
   }
   return 0; 
+}
+
+// Read and return the cpu utilization of a process
+float LinuxParser::CpuUtilization(int pid){
+  string sPid = to_string(pid);
+  long systemUpTime = LinuxParser::UpTime();
+  long uTime, sTime, cuTime, csTime, startTime, totalTime, seconds, cpuUsage;
+  vector<string> dataVec = {};
+  string line, data;
+  std::ifstream filestream(kProcDirectory + sPid + kStatFilename);
+  if (filestream.is_open()) {
+    std::getline(filestream, line);
+    std::istringstream linestream(line);
+    for (int i = 0; i < 22; i++){
+      linestream >> data;
+      dataVec.push_back(data);
+    }
+    uTime = stol(dataVec[13]);
+    sTime = stol(dataVec[14]);
+    cuTime = stol(dataVec[15]);
+    csTime = stol(dataVec[16]);
+    startTime = stol(dataVec[21]);
+    totalTime = uTime + sTime + cuTime + csTime;
+    seconds = systemUpTime - (startTime/sysconf(_SC_CLK_TCK));
+    cpuUsage = (float) (totalTime/sysconf(_SC_CLK_TCK))/seconds;
+    return cpuUsage;
+  }
+  return 0.0;
 }
