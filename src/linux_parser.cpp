@@ -282,7 +282,7 @@ long LinuxParser::UpTime(int pid) {
 float LinuxParser::CpuUtilization(int pid){
   string sPid = to_string(pid);
   long systemUpTime = LinuxParser::UpTime();
-  long uTime, sTime, cuTime, csTime, startTime, totalTime;
+  long uTime, sTime, startTime, totalTime;
   float cpuUsage, seconds;
   vector<string> dataVec;
   string line, data;
@@ -296,10 +296,8 @@ float LinuxParser::CpuUtilization(int pid){
     }
     uTime = stol(dataVec[13]);
     sTime = stol(dataVec[14]);
-    cuTime = stol(dataVec[15]);
-    csTime = stol(dataVec[16]);
     startTime = stol(dataVec[21]);
-    totalTime = uTime + sTime; // + cuTime + csTime;
+    totalTime = uTime + sTime;
     seconds = (float) ( systemUpTime - (startTime/sysconf(_SC_CLK_TCK)) );
     if (seconds){
       cpuUsage = (float) ( (totalTime/sysconf(_SC_CLK_TCK)) / seconds );
