@@ -20,14 +20,14 @@ class System {
   std::string OperatingSystem();      
 
  private:
-  Processor cpu_{Processor(LinuxParser::CpuUtilization())};
-  std::vector<Process> processes_;
-  std::string operatingSystem_{LinuxParser::OperatingSystem()}; 
-  std::string kernel_{LinuxParser::Kernel()};
-  float memoryUtilization_ {LinuxParser::MemoryUtilization()};
-  long upTime_ {LinuxParser::UpTime()};
-  int totalProcesses_ {LinuxParser::TotalProcesses()};
-  int runningProcesses_{LinuxParser::RunningProcesses()};
+  Processor cpu_ = Processor({});
+  std::vector<Process> processes_ = {};
+  std::string kernel_;
+  std::string operatingSystem_; 
+  float memoryUtilization_;
+  long upTime_;
+  int totalProcesses_ ;
+  int runningProcesses_;
 };
 
 #endif

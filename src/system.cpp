@@ -15,7 +15,10 @@ using std::string;
 using std::vector;
 using std::sort;
 
-Processor& System::Cpu() { return cpu_; }
+Processor& System::Cpu() { 
+    cpu_ = Processor(LinuxParser::CpuUtilization());
+    return cpu_; 
+    }
 
 vector<Process>& System::Processes() { 
     processes_ = {};
@@ -28,14 +31,34 @@ vector<Process>& System::Processes() {
     return processes_; 
 }
 
-std::string System::Kernel() { return kernel_; }
+std::string System::Kernel() { 
+    kernel_ = LinuxParser::Kernel();
+    return kernel_; 
+}
 
-float System::MemoryUtilization() { return memoryUtilization_; }
+std::string System::OperatingSystem() { 
+    operatingSystem_ = LinuxParser::OperatingSystem();
+    return operatingSystem_; 
+}
 
-std::string System::OperatingSystem() { return operatingSystem_; }
+float System::MemoryUtilization() { 
+    memoryUtilization_ = LinuxParser::MemoryUtilization();
+    return memoryUtilization_; 
+}
 
-int System::RunningProcesses() { return runningProcesses_; }
+long int System::UpTime() { 
+    upTime_ = LinuxParser::UpTime();
+    return upTime_; 
+}
 
-int System::TotalProcesses() { return totalProcesses_; }
+int System::TotalProcesses() { 
+    totalProcesses_ = LinuxParser::TotalProcesses();
+    return totalProcesses_; 
+}
 
-long int System::UpTime() { return upTime_; }
+int System::RunningProcesses() { 
+    runningProcesses_ = LinuxParser::RunningProcesses();
+    return runningProcesses_; 
+}
+
+

@@ -15,7 +15,7 @@ class Processor {
     float Utilization();
 
   private:
-    vector<string> cpuUsage_;
+    vector<string> cpuUsage_ = {};
 };
 
 #endif
