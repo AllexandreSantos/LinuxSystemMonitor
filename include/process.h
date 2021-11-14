@@ -13,6 +13,7 @@ class Process {
  public:
   Process(int pid){
       pid_ = pid;
+      cpuUtilization_ = Process::CpuUtilization();
   }
   int Pid();                               
   std::string User();                      
