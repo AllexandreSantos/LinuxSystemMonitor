@@ -21,7 +21,7 @@ class System {
 
  private:
   Processor cpu_{Processor(LinuxParser::CpuUtilization())};
-  std::vector<Process> processes_ = {};
+  std::vector<Process> processes_;
   std::string operatingSystem_{LinuxParser::OperatingSystem()}; 
   std::string kernel_{LinuxParser::Kernel()};
   float memoryUtilization_ {LinuxParser::MemoryUtilization()};

@@ -18,6 +18,7 @@ using std::sort;
 Processor& System::Cpu() { return cpu_; }
 
 vector<Process>& System::Processes() { 
+    processes_ = {};
     vector<int> pids = LinuxParser::Pids();
     for(long unsigned int i = 0; i<pids.size(); i++){
         Process process = Process(pids[i]);
